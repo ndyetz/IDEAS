@@ -1,5 +1,7 @@
 # A Promising Future
 
+![](https://github.com/ndyetz/IDEAS/blob/master/APF/APF_Logo.PNG)
+
 [A Promising Future](http://apromisingfuture.com/) (APF) makes an intentional investment to place young lives on a path of promise. We do what is known as positive youth development.
 
 Through our relationship education workshops, curriculum, and speakers, we build on the strengths of emerging adults so they can develop skills for success in life. The ripple effects can empower not only this generation, but also generations to come.
