@@ -1,0 +1,833 @@
+---
+title: "IDEAS Codebook"
+output:
+  pdf_document:
+    fig_crop: no
+    fig_height: 10
+    fig_width: 8
+    latex_engine: lualatex
+    number_sections: yes
+    toc: yes
+  word_document:
+    toc: yes
+  html_document:
+    fig_height: 8
+    fig_width: 8
+    self_contained: no
+    theme: spacelab
+    toc: yes
+  html_notebook:
+    toc: yes
+---
+
+
+
+```{r, echo=FALSE}
+
+#Kim's Reliability function
+
+rm(list=ls()) 
+
+my_reliability <- function (items, itemal = TRUE, NA.Delete = TRUE) 
+{
+    if (!all(apply(items, c(1, 2), is.numeric))) {
+        items <- apply(items, c(1, 2), as.numeric)
+        warning("Data is not numeric. Data has been coerced to be numeric.")
+    }
+    if (NA.Delete == FALSE) {
+        items[is.na(items)] <- 0
+        warning("Missing values or NA values are converted to zeros.")
+    }
+    items <- na.omit(items)
+    s <- apply(items, 2, var)
+    N <- ncol(items)
+    X <- rowSums(items)
+    alpha <- (N/(N - 1)) * (1 - sum(s)/var(X))
+    if (itemal) {
+        alphad <- array(dim = N)
+        pbis <- array(dim = N)
+        for (i in 1:N) {
+            Xd <- rowSums(items[, -i])
+            Mean <- sapply(items, mean)
+            SD <- sapply(items, sd)
+            Min <- sapply(items, min)
+            Max <- sapply(items, max)
+            Nobs <- sapply(items, length)
+            alphad[i] <- ((N - 1)/(N - 2)) * (1 - sum(s[-i])/var(Xd))
+            pbis[i] <- cor(items[, i], Xd)
+            out <- list(nItem = N, nPerson = nrow(items), alpha = alpha, 
+                scaleMean = mean(X), scaleSD = sd(X), Alpha.If.Deleted = alphad, 
+                R.With.Total = pbis, Mean = Mean, SD = SD, Min = Min, Max = Max, Nobs=Nobs)
+        }
+    }
+    else out <- list(nItem = N, nPerson = nrow(items), alpha = alpha, 
+        scaleMean = mean(X), scaleSD = sd(X))
+    class(out) <- "my_reliability"
+    out
+}
+
+
+toofew <- function (items, itemal = FALSE, NA.Delete = TRUE) 
+{
+    if (!all(apply(items, c(1, 2), is.numeric))) {
+        items <- apply(items, c(1, 2), as.numeric)
+        warning("Data is not numeric. Data has been coerced to be numeric.")
+    }
+    if (NA.Delete == FALSE) {
+        items[is.na(items)] <- 0
+        warning("Missing values or NA values are converted to zeros.")
+    }
+    items <- na.omit(items)
+    s <- apply(items, 2, var)
+    N <- ncol(items)
+    X <- rowSums(items)
+    if (itemal) {
+        for (i in 1:N) {
+            Mean <- sapply(items, mean)
+            SD <- sapply(items, sd)
+            Min <- sapply(items, min)
+            Max <- sapply(items, max)
+            Nobs <- sapply(items, length)
+            out <- list(nItem = N, 
+                scaleMean = mean(X), scaleSD = sd(X), 
+                Mean = Mean, SD = SD, Min = Min, Max = Max, Nobs=Nobs)
+        }
+    }
+    else out <- list(nItem = N, nPerson = nrow(items),  
+        scaleMean = mean(X), scaleSD = sd(X), Mean = Mean, SD = SD, Min = Min, Max = Max, Nobs=Nobs)
+    class(out) <- "toofew"
+    out
+}
+
+```
+
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(GGally)
+library(ggplot2)
+library(lattice)
+library(gridExtra)
+library(reshape)
+library(pander)
+library(knitr)
+library(readxl)
+
+panderOptions('table.split.table', Inf)
+#panderOptions('digits', 3)
+panderOptions('round', 2)
+panderOptions('keep.trailing.zeros', TRUE)
+panderOptions('keep.line.breaks', TRUE)
+set.alignment('left', row.names = 'right')
+
+
+
+varlist  <- read_excel("varlist.xlsx") 
+THISDATA <- read_excel("../Data/IDEAS_data.xlsx") 
+```
+
+#General Information
+The following codebook was created by Neil Yetz, MPH, Abigail Johnson, BS & Nathaniel Riggs, PhD on 01/17/2019 and was last update on `r format(Sys.time(), "%m/%d/%Y")`. This codebook corresponds to the APF survey as part of an *Advancing Innovation and Dissemination of Evidence-Based Action in Schools* (IDEAS) project.
+
+Please send any questions and correspondences of this document to Neil Yetz <Neil.Yetz@colostate.edu>, Abigail Johnson <Abby.Johnson@colostate.edu> & Nathaniel Riggs <Nathaniel.Riggs@colostate.edu>.
+
+\newpage
+
+#Demographics
+
+**Description of Demographic Variables**  
+The participants reported on a series of demographic questions pertaining to themselves.  These items were administered at the pre-intervention survey only.  
+
+**List of Demographic Variables**
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="demo")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 45)
+```
+
+\newpage
+
+#Instruments  
+##Brief Resilience Scale
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Smith, B. W., Dalen, J., Wiggins, K., Tooley, E., Christopher, P., & Bernard, J. (2008). The brief resilience scale: assessing the ability to bounce back. International journal of behavioral medicine, 15(3), 194-200.
+
+**List of Items in Instrument**   
+Please respond to each item by marking one box per row 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="brs")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:** Add the responses varying from 1-5 for all six items giving a range from 6-30. Divide the total sum by the total number of questions answered.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+
+##Brief Control Scale
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Tangney, J. P., Baumeister, R. F., & Boone, A. L. (2004). High self-control predicts good adjustment, less pathology, better grades, and interpersonal success. Journal of personality, 72(2), 271-324.
+
+**List of Items in Instrument**   
+For each of the following statements please indicate how much each of the following statements reflects how you typically are.
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="bsc")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:** Need more information.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+
+##Short Executive Functioning Measure
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Buchanan, T., Heffernan, T. M., Parrott, A. C., Ling, J., Rodgers, J., & Scholey, A. B. (2010). A short self-report measure of problems with executive function suitable for administration via the Internet. Behavior Research Methods, 42(3), 709-714.
+
+**List of Items in Instrument**   
+Please rate the extent to which you have problems in the following areas by picking the appropriate option for each item.  
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="sef")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:** 
+
+Reverse Score items: 2 & 5
+Mean of item responses.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+
+##Communication Scale
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Adapted from the Communication Scale from the Youth Life Skills Evaluation Project (Barkman, S. & Machtmes, K., 2002).
+
+**List of Items in Instrument**   
+Select the answer that best corresponds to how often you did what is described in the last 30 days. For example, if you select 5 for a statement that means you always do what is described in that statement.
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="cs")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:** Mean of item responses.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+\newpage
+##Duke-UNC Functional Social Support Questionnaire (FSSQ)
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Broadhead, W. E., Gehlbach, S. H., De Gruy, F. V., & Kaplan, B. H. (1988). The Duke-UNC Functional Social Support Questionnaire: Measurement of social support in family medicine patients. Medical care, 709-723.
+
+**List of Items in Instrument**   
+Here is a list of some things that other people do for us or give us that may be helpful or supportive. Please read each statement carefully and circle the answer that is closest to your situation. 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="fssq")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:** Mean of items.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+##The Gratitude Questionaire (GQ-6)
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+McCullough M., E. (2013) . The Gratitude Questionaire (GQ-6) . Measurement Instrument Database for the Social Science. Retrieved from www.midss.ie
+
+**List of Items in Instrument**   
+Using the scale below as a guide, circle the number beside each statement to indicate how much you agree with it.  
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="gq")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:** Items 3 & 6 are reverse coded. Mean of items.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+\newpage
+##Heartland Forgiveness Scale
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Thompson, L. Y., & Synder, C. R. (2003). Measuring forgiveness. In Shane J. Lopez & C. R. Snyder (Eds.), Positive psychological assessment: A handbook of models and measures (pp. 301-312). Washington, DC, US: American Psychological Association.
+
+**List of Items in Instrument**   
+In the course of our lives, negative things may occur because of our own actions, the actions of others, or circumstances beyond our control. For some time after these events, we may have negative thoughts or feelings about ourselves, others, or the situation. Think about how you typically respond to such negative events. Next to each of the following items write the number (from the 7-point scale below) that best describes how you typically respond to the type of negative situation described. There are no right or wrong answers. Please be as open as possible in your answers.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="hfs")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 100)
+```
+
+**Scoring:** 
+
+Total HFS (items 1-18)  
+- HFS Forgiveness of Self subscale (items 1-6)  
+- HFS Forgiveness of Others subscale (items 7-12)  
+- HFS Forgiveness of Situations subscale (items 13-18)
+
+To score the HFS:
+
+1. Scores for items 1, 3, 5, 8, 10, 12, 14, 16, & 18 are the same as the answer written by the person taking the HFS. Scores for items 2, 4, 6, 7, 9, 11, 13, 15, and 17 are reversed. For
+example, an answer of 1 is given a score of 7 and an answer of 7 is given a score of 1. Refer
+to the tables below for more information about scoring individual items.
+2. To calculate the Total HFS, HFS Forgivenesss of Self, HFS Forgiveness of Others, and HFS
+Forgiveness of Situations, sum the values for the items that compose each scale or subscale
+(with appropriate items being reverse scored). Scores for the Total HFS can range from 18 to 126. Scores for each of the three HFS subscales can range from 6 to 42.
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+##Solving Problems
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Youth Life Skills Evaluation project at Penn State. Instrument also cited by the CYFAR Life Skills Project at Texas A&M University.
+
+**List of Items in Instrument**   
+Please select the appropriate response for each item below.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="sps")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:**  
+Reverse score items: 5, 9, & 15.  
+Sum all item ratings together.  
+Higher scores indicate greater skill at problem solving.  
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+##Sexual Choices
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Not an established scale
+
+**List of Items in Instrument**   
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Variable=="K1")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+These items are all measured using a 4 point scale as follows:   
+1- Not at all like me, 2- somewhat like me, 3- Like me, 4- Very much like me.
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="sex_choice" & Variable != "K1" & Variable != "K26")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 75)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Variable=="K26")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+**Scoring:**  
+N/A
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+##Sexually Transmitted Disease Knowledge
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Not an established scale
+
+**List of Items in Instrument**   
+The following questions ask about your knowledge of sexually transmitted diseases (STDs) that is, infections that are passed through sexual contact with other sexual partners. Examples of STDs include herpes, chlamydia, HPV, etc. Please answer the following questions honestly and to the best of your knowledge. 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="std_know")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+
+**Scoring:**  
+% Yes
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
+\newpage
+##Condom Use knowledge
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, eval = FALSE}
+
+
+pipealpha1 <- NULL
+pipealpha2 <- NULL
+
+variables1 <- c("B1", "B2","B3","B4","B5","B6")
+
+data1 <- THISDATA[c("ID", variables1)]
+
+ca1 <- my_reliability(data1[,-1], itemal=TRUE, NA.Delete=TRUE) 
+
+pipealpha1 <- paste(formatC(round(ca1$alpha, digits=2), 2, format = "f"))
+    
+temp1 <- cbind.data.frame(variables1, ca1$Nobs, ca1$Mean, ca1$SD, ca1$Min, ca1$Max, ca1$R.With.Total, ca1$Alpha.If.Deleted)
+colnames(temp1) <- c("Item", "N", "Mean", "SD", "Min", "Max", "R.With.Total", "Alpha.If.Deleted")
+rownames(temp1) <- NULL
+```
+
+**Instrument Citation**    
+Not an established scale
+
+**List of Items in Instrument**   
+People have different opinions about condoms. For each of the following options, circle whether you agree (1), disagree (2), or whether you don't know (3). 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="condom_know")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 50)
+```
+
+
+**Scoring:**  
+%Agree
+
+**Psychometrics**  
+*Cronbach's Alpha:* 
+
+- Pre-Intervention $\alpha$ = **Need Data**  
+- Post-Intervention $\alpha$ = **Need Data**
+
+*Item Analysis at Pre-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp1)
+```
+
+*Item Analysis at Post-Intervention*
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = FALSE}
+set.alignment('left', row.names = 'right')
+pander(temp2)
+```
+
