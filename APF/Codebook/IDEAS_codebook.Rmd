@@ -1,13 +1,6 @@
 ---
 title: "IDEAS Codebook"
 output:
-  pdf_document:
-    fig_crop: no
-    fig_height: 10
-    fig_width: 8
-    latex_engine: lualatex
-    number_sections: yes
-    toc: yes
   word_document:
     toc: yes
   html_document:
@@ -18,16 +11,24 @@ output:
     toc: yes
   html_notebook:
     toc: yes
+  pdf_document:
+    fig_crop: no
+    fig_height: 10
+    fig_width: 8
+    latex_engine: lualatex
+    number_sections: yes
+    toc: yes
 ---
 
 
 
 ```{r, echo=FALSE}
 
-#Kim's Reliability function
 
+#Clear Environment
 rm(list=ls()) 
 
+#Kim's Reliability function
 my_reliability <- function (items, itemal = TRUE, NA.Delete = TRUE) 
 {
     if (!all(apply(items, c(1, 2), is.numeric))) {
@@ -124,13 +125,32 @@ set.alignment('left', row.names = 'right')
 
 
 varlist  <- read_excel("varlist.xlsx") 
-THISDATA <- read_excel("../Data/IDEAS_data.xlsx") 
+THISDATA <- read_excel("../Data/APF_data.xlsx") 
 ```
 
 #General Information
 The following codebook was created by Neil Yetz, MPH, Abigail Johnson, BS & Nathaniel Riggs, PhD on 01/17/2019 and was last update on `r format(Sys.time(), "%m/%d/%Y")`. This codebook corresponds to the APF survey as part of an *Advancing Innovation and Dissemination of Evidence-Based Action in Schools* (IDEAS) project.
 
 Please send any questions and correspondences of this document to Neil Yetz <Neil.Yetz@colostate.edu>, Abigail Johnson <Abby.Johnson@colostate.edu> & Nathaniel Riggs <Nathaniel.Riggs@colostate.edu>.
+
+\newpage
+
+#General Variables
+
+**Description of Demographic Variables**  
+Variables recorded for research purposes. 
+
+**List of Demographic Variables**
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+set.alignment('left', row.names = 'right')
+
+vl <- subset(varlist, Scale=="gen")
+vl$Scale <- NULL
+row.names(vl) <- NULL
+
+pander(vl, split.cells = 45)
+```
 
 \newpage
 
@@ -241,7 +261,7 @@ For each of the following statements please indicate how much each of the follow
 
 set.alignment('left', row.names = 'right')
 
-vl <- subset(varlist, Scale=="bsc")
+vl <- subset(varlist, Scale=="bcs")
 vl$Scale <- NULL
 row.names(vl) <- NULL
 
@@ -534,7 +554,7 @@ vl <- subset(varlist, Scale=="hfs")
 vl$Scale <- NULL
 row.names(vl) <- NULL
 
-pander(vl, split.cells = 100)
+pander(vl, split.cells = 91)
 ```
 
 **Scoring:** 
@@ -661,11 +681,11 @@ Not an established scale
 
 set.alignment('left', row.names = 'right')
 
-vl <- subset(varlist, Variable=="K1")
+vl <- subset(varlist, Variable=="sexch_K1")
 vl$Scale <- NULL
 row.names(vl) <- NULL
 
-pander(vl, split.cells = 50)
+pander(vl, split.cells = 45)
 ```
 
 These items are all measured using a 4 point scale as follows:   
@@ -674,18 +694,18 @@ These items are all measured using a 4 point scale as follows:
 
 set.alignment('left', row.names = 'right')
 
-vl <- subset(varlist, Scale=="sex_choice" & Variable != "K1" & Variable != "K26")
+vl <- subset(varlist, Scale=="sex_choice" & Variable != "sexch_K1" & Variable != "sexch_K26")
 vl$Scale <- NULL
 row.names(vl) <- NULL
 
-pander(vl, split.cells = 75)
+pander(vl, split.cells = 60)
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 set.alignment('left', row.names = 'right')
 
-vl <- subset(varlist, Variable=="K26")
+vl <- subset(varlist, Variable=="sexch_K26")
 vl$Scale <- NULL
 row.names(vl) <- NULL
 

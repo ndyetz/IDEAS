@@ -13,15 +13,15 @@
 
 <title>IDEAS Codebook</title>
 
-<script src="IDEAs_codebook_files/jquery-1.11.3/jquery.min.js"></script>
+<script src="IDEAS_codebook_files/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="IDEAs_codebook_files/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
-<script src="IDEAs_codebook_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="IDEAs_codebook_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="IDEAs_codebook_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="IDEAs_codebook_files/navigation-1.1/tabsets.js"></script>
-<link href="IDEAs_codebook_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="IDEAs_codebook_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="IDEAS_codebook_files/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="IDEAS_codebook_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="IDEAS_codebook_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="IDEAS_codebook_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="IDEAS_codebook_files/navigation-1.1/tabsets.js"></script>
+<link href="IDEAS_codebook_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="IDEAS_codebook_files/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -96,6 +96,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -103,14 +106,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -127,6 +190,7 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#general-information">General Information</a></li>
+<li><a href="#general-variables">General Variables</a></li>
 <li><a href="#demographics">Demographics</a></li>
 <li><a href="#instruments">Instruments</a><ul>
 <li><a href="#brief-resilience-scale">Brief Resilience Scale</a></li>
@@ -146,20 +210,20 @@ $(document).ready(function () {
 
 <div id="general-information" class="section level1">
 <h1>General Information</h1>
-<p>The following codebook was created by Neil Yetz, MPH, Abigail Johnson, BS &amp; Nathaniel Riggs, PhD on 01/17/2019 and was last update on 01/23/2019. This codebook corresponds to the APF survey as part of an <em>Advancing Innovation and Dissemination of Evidence-Based Action in Schools</em> (IDEAS) project.</p>
+<p>The following codebook was created by Neil Yetz, MPH, Abigail Johnson, BS &amp; Nathaniel Riggs, PhD on 01/17/2019 and was last update on 01/31/2019. This codebook corresponds to the APF survey as part of an <em>Advancing Innovation and Dissemination of Evidence-Based Action in Schools</em> (IDEAS) project.</p>
 <p>Please send any questions and correspondences of this document to Neil Yetz <a href="mailto:Neil.Yetz@colostate.edu">Neil.Yetz@colostate.edu</a>, Abigail Johnson <a href="mailto:Abby.Johnson@colostate.edu">Abby.Johnson@colostate.edu</a> &amp; Nathaniel Riggs <a href="mailto:Nathaniel.Riggs@colostate.edu">Nathaniel.Riggs@colostate.edu</a>.</p>
 
 </div>
-<div id="demographics" class="section level1">
-<h1>Demographics</h1>
+<div id="general-variables" class="section level1">
+<h1>General Variables</h1>
 <p><strong>Description of Demographic Variables</strong><br />
-The participants reported on a series of demographic questions pertaining to themselves. These items were administered at the pre-intervention survey only.</p>
+Variables recorded for research purposes.</p>
 <p><strong>List of Demographic Variables</strong></p>
 <table>
 <colgroup>
 <col width="14%" />
-<col width="42%" />
-<col width="42%" />
+<col width="46%" />
+<col width="38%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -172,62 +236,110 @@ The participants reported on a series of demographic questions pertaining to the
 <tr class="odd">
 <td align="left">ID</td>
 <td align="left">Particpant ID#</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">A1</td>
-<td align="left">Are you a:</td>
-<td align="left">Boy = 1, Girl = 2</td>
-</tr>
-<tr class="odd">
-<td align="left">A2</td>
-<td align="left">Are you eligible to receive free or reduced lunch prices at your school?</td>
-<td align="left">Yes = 1, 2 = No, 3 = I don’t know</td>
-</tr>
-<tr class="even">
-<td align="left">A3</td>
-<td align="left">How old are you?</td>
-<td align="left">Numeric response</td>
-</tr>
-<tr class="odd">
-<td align="left">A4</td>
-<td align="left">What grades do you get in school most of the time?</td>
-<td align="left">0 = 0 or Mostly F’s, 1 = 1 or Mostly D’s, 2 = 2 or Mostly C’s, 3 = 3 or Mostly B’s, 4 = 4 or Mostly A’s</td>
-</tr>
-<tr class="even">
-<td align="left">A5_white</td>
-<td align="left">Are you: White</td>
-<td align="left">1 = White</td>
-</tr>
-<tr class="odd">
-<td align="left">A5_hisp</td>
-<td align="left">Are you: Latino or Hispanic?</td>
-<td align="left">1 = Latino or Hispanic</td>
-</tr>
-<tr class="even">
-<td align="left">A5_black</td>
-<td align="left">Are you: Black or African American?</td>
-<td align="left">1 = Black or African American</td>
-</tr>
-<tr class="odd">
-<td align="left">A5_asian</td>
-<td align="left">Are you: Asian?</td>
-<td align="left">1 = Asian</td>
-</tr>
-<tr class="even">
-<td align="left">A5_other</td>
-<td align="left">Are you: Other?</td>
-<td align="left">1 = Other</td>
-</tr>
-<tr class="odd">
-<td align="left">A5_other_text</td>
-<td align="left">Are you: Other text response</td>
 <td align="left">Text response</td>
 </tr>
 <tr class="even">
-<td align="left">A6</td>
-<td align="left">Do you Identify as:</td>
-<td align="left">Pending</td>
+<td align="left">Name</td>
+<td align="left">Participant name</td>
+<td align="left">Text response</td>
+</tr>
+<tr class="odd">
+<td align="left">Gender</td>
+<td align="left">School reported gender</td>
+<td align="left">M = Male, F = Female</td>
+</tr>
+<tr class="even">
+<td align="left">Teacher</td>
+<td align="left">Teacher name</td>
+<td align="left">Text response</td>
+</tr>
+<tr class="odd">
+<td align="left">Condition</td>
+<td align="left">Randomly assigned condition</td>
+<td align="left">1 = APF condition, 0 = Control</td>
+</tr>
+<tr class="even">
+<td align="left">Consent</td>
+<td align="left">Did participant’s parents consent to research?</td>
+<td align="left">Y = Yes, N = No</td>
+</tr>
+<tr class="odd">
+<td align="left">Assent</td>
+<td align="left">Did youth assent to research?</td>
+<td align="left">Y = Yes, N = No</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div id="demographics" class="section level1">
+<h1>Demographics</h1>
+<p><strong>Description of Demographic Variables</strong><br />
+The participants reported on a series of demographic questions pertaining to themselves. These items were administered at the pre-intervention survey only.</p>
+<p><strong>List of Demographic Variables</strong></p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="42%" />
+<col width="42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+<th align="left">Response scale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">dem_gen</td>
+<td align="left">[Gender self report] Are you a:</td>
+<td align="left">1 = Boy, 2 = Girl</td>
+</tr>
+<tr class="even">
+<td align="left">dem_lunch</td>
+<td align="left">Are you eligible to receive free or reduced lunch prices at your school?</td>
+<td align="left">1 = Yes, 2 = No, 3 = I don’t know</td>
+</tr>
+<tr class="odd">
+<td align="left">dem_age</td>
+<td align="left">How old are you?</td>
+<td align="left">Numeric response</td>
+</tr>
+<tr class="even">
+<td align="left">dem_grade</td>
+<td align="left">What grades do you get in school most of the time?</td>
+<td align="left">0 = 0 or Mostly F’s, 1 = 1 or Mostly D’s, 2 = 2 or Mostly C’s, 3 = 3 or Mostly B’s, 4 = 4 or Mostly A’s</td>
+</tr>
+<tr class="odd">
+<td align="left">dem_white</td>
+<td align="left">Are you: White</td>
+<td align="left">1 = White</td>
+</tr>
+<tr class="even">
+<td align="left">dem_hisp</td>
+<td align="left">Are you: Latino or Hispanic?</td>
+<td align="left">1 = Latino or Hispanic</td>
+</tr>
+<tr class="odd">
+<td align="left">dem_black</td>
+<td align="left">Are you: Black or African American?</td>
+<td align="left">1 = Black or African American</td>
+</tr>
+<tr class="even">
+<td align="left">dem_asian</td>
+<td align="left">Are you: Asian?</td>
+<td align="left">1 = Asian</td>
+</tr>
+<tr class="odd">
+<td align="left">dem_other</td>
+<td align="left">Are you: Other?</td>
+<td align="left">1 = Other</td>
+</tr>
+<tr class="even">
+<td align="left">dem_other_text</td>
+<td align="left">Are you: Other text response</td>
+<td align="left">Text response</td>
 </tr>
 </tbody>
 </table>
@@ -256,32 +368,32 @@ Please respond to each item by marking one box per row</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">B1</td>
+<td align="left">brs_B1</td>
 <td align="left">I tend to bounce back quickly after hard times.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">B2</td>
+<td align="left">brs_B2</td>
 <td align="left">I have a hard time making it through stressful events.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">B3</td>
+<td align="left">brs_B3</td>
 <td align="left">It does not take me long to recover from a stressful event.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">B4</td>
+<td align="left">brs_B4</td>
 <td align="left">It is hard for me to snap back after something bad happens.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">B5</td>
+<td align="left">brs_B5</td>
 <td align="left">I usually come through difficult times with little trouble.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">B6</td>
+<td align="left">brs_B6</td>
 <td align="left">I tend to take a long time to get over set-backs in my life.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
@@ -320,67 +432,67 @@ For each of the following statements please indicate how much each of the follow
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">C1</td>
+<td align="left">bcs_C1</td>
 <td align="left">I am good at resisting temptation.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">C2</td>
+<td align="left">bcs_C2</td>
 <td align="left">I have a hard time breaking bad habits.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">C3</td>
+<td align="left">bcs_C3</td>
 <td align="left">I am lazy.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">C4</td>
+<td align="left">bcs_C4</td>
 <td align="left">I say inappropriate things.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">C5</td>
+<td align="left">bcs_C5</td>
 <td align="left">I do certain things that are bad for me, if they are fun.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">C6</td>
+<td align="left">bcs_C6</td>
 <td align="left">I refuse things that are bad for me.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">C7</td>
+<td align="left">bcs_C7</td>
 <td align="left">I wish I had more self-discipline.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">C8</td>
+<td align="left">bcs_C8</td>
 <td align="left">People would say that I have iron self-discipline.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">C9</td>
+<td align="left">bcs_C9</td>
 <td align="left">Pleasure and fun sometimes keep me from getting work done.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">C10</td>
+<td align="left">bcs_C10</td>
 <td align="left">I have trouble concentrating.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">C11</td>
+<td align="left">bcs_C11</td>
 <td align="left">I am able to work effectively toward long-term goals.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="even">
-<td align="left">C12</td>
+<td align="left">bcs_C12</td>
 <td align="left">Sometimes I canât stop myself from doing something, even if I know it is wrong.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
 <tr class="odd">
-<td align="left">C13</td>
+<td align="left">bcs_C13</td>
 <td align="left">I often act without thinking through all the alternatives.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</td>
 </tr>
@@ -419,32 +531,32 @@ Please rate the extent to which you have problems in the following areas by pick
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">D1</td>
+<td align="left">sef_D1</td>
 <td align="left">Do you find is difficult to keep your attention on a particular task?</td>
 <td align="left">1 = No problems, 2 = A few problems, 3 = More than a few problems, 4 = A great many problems</td>
 </tr>
 <tr class="even">
-<td align="left">D2</td>
+<td align="left">sef_D2</td>
 <td align="left">Do you find yourself having problems concentrating on a task?</td>
 <td align="left">1 = No problems, 2 = A few problems, 3 = More than a few problems, 4 = A great many problems</td>
 </tr>
 <tr class="odd">
-<td align="left">D3</td>
+<td align="left">sef_D3</td>
 <td align="left">Do you have difficulty carrying out more than one task at a time?</td>
 <td align="left">1 = No problems, 2 = A few problems, 3 = More than a few problems, 4 = A great many problems</td>
 </tr>
 <tr class="even">
-<td align="left">D4</td>
+<td align="left">sef_D4</td>
 <td align="left">Do you tend to “lose” your train of thoughts?</td>
 <td align="left">1 = No problems, 2 = A few problems, 3 = More than a few problems, 4 = A great many problems</td>
 </tr>
 <tr class="odd">
-<td align="left">D5</td>
+<td align="left">sef_D5</td>
 <td align="left">Do you have difficulty seeing through something that you have started?</td>
 <td align="left">1 = No problems, 2 = A few problems, 3 = More than a few problems, 4 = A great many problems</td>
 </tr>
 <tr class="even">
-<td align="left">D6</td>
+<td align="left">sef_D6</td>
 <td align="left">Do you find yourself acting on impulse?</td>
 <td align="left">1 = No problems, 2 = A few problems, 3 = More than a few problems, 4 = A great many problems</td>
 </tr>
@@ -484,117 +596,117 @@ Select the answer that best corresponds to how often you did what is described i
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">E1</td>
+<td align="left">cs_E1</td>
 <td align="left">I use my tone of voice to reinforce what I am trying to say.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E2</td>
+<td align="left">cs_E2</td>
 <td align="left">I don’t hear everything a person is saying because I am thinking about what I want to say.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E3</td>
+<td align="left">cs_E3</td>
 <td align="left">When talking to someone, I try to maintain eye contact.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E4</td>
+<td align="left">cs_E4</td>
 <td align="left">My body language reinforces what I am trying to say.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E5</td>
+<td align="left">cs_E5</td>
 <td align="left">I interrupt other people to say what I want to say before I forget it.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E6</td>
+<td align="left">cs_E6</td>
 <td align="left">I recognize when two people are trying to say the same thing, but in different ways.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E7</td>
+<td align="left">cs_E7</td>
 <td align="left">I try to watch other people’s body language to help me say what I am trying to say.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E8</td>
+<td align="left">cs_E8</td>
 <td align="left">I recognize when people are using their hands to reinforce what they are saying.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E9</td>
+<td align="left">cs_E9</td>
 <td align="left">I recognize when a person is listening to me, but not hearing what I am saying.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E10</td>
+<td align="left">cs_E10</td>
 <td align="left">I use my own experiences to let my friends know that I understand what they are going through.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E11</td>
+<td align="left">cs_E11</td>
 <td align="left">When I am listening to someone, I try to understand what they are feeling.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E12</td>
+<td align="left">cs_E12</td>
 <td align="left">I try to see the other personâs point of view.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E13</td>
+<td align="left">cs_E13</td>
 <td align="left">I change the way I talk to someone based on my relationship with them (i.e., friend, parent, teacher, etc.)</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E14</td>
+<td align="left">cs_E14</td>
 <td align="left">I try to respond to what someone is saying, rather than just reacting to their tone of voice.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E15</td>
+<td align="left">cs_E15</td>
 <td align="left">To help a person understand me, I change the way I speak based on how the other person is talking to me.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E16</td>
+<td align="left">cs_E16</td>
 <td align="left">I find it easy to get my point across.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E17</td>
+<td align="left">cs_E17</td>
 <td align="left">I use my hands to illustrate what I am trying to say.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E18</td>
+<td align="left">cs_E18</td>
 <td align="left">I organize thoughts in my head before speaking.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E19</td>
+<td align="left">cs_E19</td>
 <td align="left">I use body language to help reinforce what I want to say.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E20</td>
+<td align="left">cs_E20</td>
 <td align="left">I make sure I understand what another person is saying before I respond.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E21</td>
+<td align="left">cs_E21</td>
 <td align="left">I rephrase what another person said, to make sure that I understood them.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">E22</td>
+<td align="left">cs_E22</td>
 <td align="left">When someone gets mad, I change my tone of voice to help them calm down.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">E23</td>
+<td align="left">cs_E23</td>
 <td align="left">I find ways to redirect the conversation when people rattle on and on.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
@@ -633,42 +745,42 @@ Here is a list of some things that other people do for us or give us that may be
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">F1</td>
+<td align="left">fssq_F1</td>
 <td align="left">I have people who care what happens to me.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="even">
-<td align="left">F2</td>
+<td align="left">fssq_F2</td>
 <td align="left">I get love and affection.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="odd">
-<td align="left">F3</td>
+<td align="left">fssq_F3</td>
 <td align="left">I get chances to talk to someone about problems at work or with my housework.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="even">
-<td align="left">F4</td>
+<td align="left">fssq_F4</td>
 <td align="left">I get chances to talk to someone I trust about my personal or family problems.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="odd">
-<td align="left">F5</td>
+<td align="left">fssq_F5</td>
 <td align="left">I get chances to talk about money matters.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="even">
-<td align="left">F6</td>
+<td align="left">fssq_F6</td>
 <td align="left">I get invitations to go out and do things with other people.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="odd">
-<td align="left">F7</td>
+<td align="left">fssq_F7</td>
 <td align="left">I get useful advice about important things in life.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
 <tr class="even">
-<td align="left">F8</td>
+<td align="left">fssq_F8</td>
 <td align="left">I get help when I am sick in bed.</td>
 <td align="left">1 = Much less than I would like, 2 = Less than I would like, 3 = Some, but I would like more, 4 = Almost as much as I would like, 5 = As much as I would like</td>
 </tr>
@@ -707,32 +819,32 @@ Using the scale below as a guide, circle the number beside each statement to ind
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">G1</td>
+<td align="left">gq_G1</td>
 <td align="left">I have so much in life to be thankful for.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Slightly disagree, 4 = Neutral, 5 = Slightly agree, 6 = Agree, 7 = Strongly agree</td>
 </tr>
 <tr class="even">
-<td align="left">G2</td>
+<td align="left">gq_G2</td>
 <td align="left">If I had to list everything that I felt grateful for, it would be a very long list.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Slightly disagree, 4 = Neutral, 5 = Slightly agree, 6 = Agree, 7 = Strongly agree</td>
 </tr>
 <tr class="odd">
-<td align="left">G3</td>
+<td align="left">gq_G3</td>
 <td align="left">When I look at the world, I donât see much to be grateful for.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Slightly disagree, 4 = Neutral, 5 = Slightly agree, 6 = Agree, 7 = Strongly agree</td>
 </tr>
 <tr class="even">
-<td align="left">G4</td>
+<td align="left">gq_G4</td>
 <td align="left">I am grateful to a wide variety of people.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Slightly disagree, 4 = Neutral, 5 = Slightly agree, 6 = Agree, 7 = Strongly agree</td>
 </tr>
 <tr class="odd">
-<td align="left">G5</td>
+<td align="left">gq_G5</td>
 <td align="left">As I get older, I find myself more able to appreciate the people, events, and situations that have been part of my life history.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Slightly disagree, 4 = Neutral, 5 = Slightly agree, 6 = Agree, 7 = Strongly agree</td>
 </tr>
 <tr class="even">
-<td align="left">G6</td>
+<td align="left">gq_G6</td>
 <td align="left">Long amounts of time can go by before I feel grateful to something or someone.</td>
 <td align="left">1 = Strongly disagree, 2 = Disagree, 3 = Slightly disagree, 4 = Neutral, 5 = Slightly agree, 6 = Agree, 7 = Strongly agree</td>
 </tr>
@@ -759,8 +871,8 @@ In the course of our lives, negative things may occur because of our own actions
 <table>
 <colgroup>
 <col width="5%" />
-<col width="47%" />
-<col width="47%" />
+<col width="48%" />
+<col width="45%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -771,92 +883,92 @@ In the course of our lives, negative things may occur because of our own actions
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">H1</td>
+<td align="left">hfs_H1</td>
 <td align="left">Although I feel badly at first when I mess up, over time I can give myself some slack.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H2</td>
+<td align="left">hfs_H2</td>
 <td align="left">I hold grudges against myself for the negative things I’ve done.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H3</td>
+<td align="left">hfs_H3</td>
 <td align="left">Learning from bad things that Iâve done helps me get over them.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H4</td>
+<td align="left">hfs_H4</td>
 <td align="left">It is really hard for me to accept myself once Iâve messed up.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H5</td>
+<td align="left">hfs_H5</td>
 <td align="left">With time I am understanding of myself for mistakes Iâve made.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H6</td>
+<td align="left">hfs_H6</td>
 <td align="left">I donât stop criticizing myself for the negative things Iâve felt, thought, said or done.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H7</td>
+<td align="left">hfs_H7</td>
 <td align="left">I continue to punish a person who has done something that I think is wrong.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H8</td>
+<td align="left">hfs_H8</td>
 <td align="left">With time I am understanding of others for the mistakes theyâve made.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H9</td>
+<td align="left">hfs_H9</td>
 <td align="left">I continue to be hard on others who have hurt me.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H10</td>
+<td align="left">hfs_H10</td>
 <td align="left">Although others have hurt me in the past, I have eventually been able to see them as good people.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H11</td>
+<td align="left">hfs_H11</td>
 <td align="left">If others mistreat me, I continue to think badly of them.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H12</td>
+<td align="left">hfs_H12</td>
 <td align="left">When someone disappoints me, I can eventually move past it.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H13</td>
+<td align="left">hfs_H13</td>
 <td align="left">When things go wrong for reasons that canât be controlled, I get stuck in negative thoughts about it.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H14</td>
+<td align="left">hfs_H14</td>
 <td align="left">With time I can be understanding of bad circumstances in my life.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H15</td>
+<td align="left">hfs_H15</td>
 <td align="left">If I am disappointed by uncontrollable circumstances in my life, I continue to think negatively about them.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H16</td>
+<td align="left">hfs_H16</td>
 <td align="left">I eventually make peace with bad situations in my life.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="odd">
-<td align="left">H17</td>
+<td align="left">hfs_H17</td>
 <td align="left">Itâs really hard for me to accept negative situations that arenât anybodyâs fault.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
 <tr class="even">
-<td align="left">H18</td>
+<td align="left">hfs_H18</td>
 <td align="left">Eventually I let go of negative thoughts about bad circumstances that are beyond anyoneâs control.</td>
 <td align="left">1 = Almost always false of me, 2 = 2, 3 = More often false of me, 4 = 4, 5 = More often true of me, 6 = 6, 7 = Almost always true of me</td>
 </tr>
@@ -904,122 +1016,122 @@ Please select the appropriate response for each item below.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">I1</td>
+<td align="left">sps_I1</td>
 <td align="left">When I have a problem, I first figure out exactly what the problem is.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I2</td>
+<td align="left">sps_I2</td>
 <td align="left">I try to get all the facts before trying to solve a problem.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I3</td>
+<td align="left">sps_I3</td>
 <td align="left">When I have a problem, I look at what is and what should be.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I4</td>
+<td align="left">sps_I4</td>
 <td align="left">I look ahead and try to prevent problems before they happen.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I5</td>
+<td align="left">sps_I5</td>
 <td align="left">When faced with a problem, I wait to see if it will go away.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I6</td>
+<td align="left">sps_I6</td>
 <td align="left">I look at a problem from many different viewpoints (my own, my friendsâ, my parentsâ, etc.).</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I7</td>
+<td align="left">sps_I7</td>
 <td align="left">I keep an open mind about what caused a problem.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I8</td>
+<td align="left">sps_I8</td>
 <td align="left">When faced with a problem, I try to determine what caused it.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I9</td>
+<td align="left">sps_I9</td>
 <td align="left">When solving a problem, I do the first thing that comes into my head.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I10</td>
+<td align="left">sps_I10</td>
 <td align="left">I look at the likely results for each possible solution.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I11</td>
+<td align="left">sps_I11</td>
 <td align="left">When solving a problem, I look at all possible solutions.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I12</td>
+<td align="left">sps_I12</td>
 <td align="left">When I have a problem, I do what I have done in the past to solve it.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I13</td>
+<td align="left">sps_I13</td>
 <td align="left">I try to look at the long term results of each possible solution.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I14</td>
+<td align="left">sps_I14</td>
 <td align="left">When comparing solutions, I look how each solution will affect the people involved.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I15</td>
+<td align="left">sps_I15</td>
 <td align="left">When I am solving a problem, I choose the easiest solution.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I16</td>
+<td align="left">sps_I16</td>
 <td align="left">I compare each possible solution with the others to find the best one to solve my problem.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I17</td>
+<td align="left">sps_I17</td>
 <td align="left">After putting my solution into action, I forget about it.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I18</td>
+<td align="left">sps_I18</td>
 <td align="left">After choosing a solution, I put it into action.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I19</td>
+<td align="left">sps_I19</td>
 <td align="left">After selecting a solution, I think about it for awhile before I put it into action.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I20</td>
+<td align="left">sps_I20</td>
 <td align="left">I tend to doubt my decision after it has been made.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I21</td>
+<td align="left">sps_I21</td>
 <td align="left">If my solution is not working, I will try another solution.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I22</td>
+<td align="left">sps_I22</td>
 <td align="left">Once I carry out a solution, I never look back.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="odd">
-<td align="left">I23</td>
+<td align="left">sps_I23</td>
 <td align="left">When a solution is not working, I try to figure out what is wrong.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
 <tr class="even">
-<td align="left">I24</td>
+<td align="left">sps_I24</td>
 <td align="left">Once I have solved a problem, I step back to see how my solution is working.</td>
 <td align="left">1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Always</td>
 </tr>
@@ -1047,9 +1159,9 @@ Not an established scale</p>
 <p><strong>List of Items in Instrument</strong></p>
 <table>
 <colgroup>
-<col width="9%" />
-<col width="46%" />
+<col width="11%" />
 <col width="43%" />
+<col width="46%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1060,7 +1172,7 @@ Not an established scale</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">K1</td>
+<td align="left">sexch_K1</td>
 <td align="left">If someone did want you to have sexual intercourse with him/her during the next year, what would you do?</td>
 <td align="left">1 = I definitely would not do it, 2 = I probably would do it, 3 = I’m not sure whether I would do it or not, 4 = I probably would do it, 5 = I definitely would do it</td>
 </tr>
@@ -1070,9 +1182,9 @@ Not an established scale</p>
 1- Not at all like me, 2- somewhat like me, 3- Like me, 4- Very much like me.</p>
 <table>
 <colgroup>
-<col width="6%" />
-<col width="46%" />
-<col width="46%" />
+<col width="8%" />
+<col width="45%" />
+<col width="45%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1083,122 +1195,122 @@ Not an established scale</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">K2</td>
+<td align="left">sexch_K2</td>
 <td align="left">I believe that my sexual choices affect others</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K3</td>
+<td align="left">sexch_K3</td>
 <td align="left">I have told a friend that I plan to stop having sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K4</td>
+<td align="left">sexch_K4</td>
 <td align="left">When I am in a relationship, I tell my partner about my decision to not have sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K5</td>
+<td align="left">sexch_K5</td>
 <td align="left">I am continuously avoiding people, places and things that make me want to have sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K6</td>
+<td align="left">sexch_K6</td>
 <td align="left">I plan to stop having sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K7</td>
+<td align="left">sexch_K7</td>
 <td align="left">At this time in my life, I may benefit from new sexual boundaries.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K8</td>
+<td align="left">sexch_K8</td>
 <td align="left">I see myself as a different person due to my decision to stop having sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K9</td>
+<td align="left">sexch_K9</td>
 <td align="left">I have stopped having sex</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K10</td>
+<td align="left">sexch_K10</td>
 <td align="left">I am spending times with friends/mentors who support my decision to stop having sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K11</td>
+<td align="left">sexch_K11</td>
 <td align="left">I am confident in my decision to stop having sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K12</td>
+<td align="left">sexch_K12</td>
 <td align="left">I have replaced my previous sexual activities with other (positive) outlets.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K13</td>
+<td align="left">sexch_K13</td>
 <td align="left">I am thinking about the consequences of my sexual choices.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K14</td>
+<td align="left">sexch_K14</td>
 <td align="left">I am seeking out resources (my doctor, counselor, supportive adult figure) to stop having sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K15</td>
+<td align="left">sexch_K15</td>
 <td align="left">I am always aware of my triggers that make me want to have sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K16</td>
+<td align="left">sexch_K16</td>
 <td align="left">If a sexual opportunity arose, I would be able to keep my decision to not have sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K17</td>
+<td align="left">sexch_K17</td>
 <td align="left">I believe that my sexual choice affect my ability to enter into a long-term relationship.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K18</td>
+<td align="left">sexch_K18</td>
 <td align="left">My decision to NOT have sex is good for me.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K19</td>
+<td align="left">sexch_K19</td>
 <td align="left">I am comfortable with my decision to NOT have sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K20</td>
+<td align="left">sexch_K20</td>
 <td align="left">My decision to NOT have sex makes me feel good about myself.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K21</td>
+<td align="left">sexch_K21</td>
 <td align="left">At this stage of my life, sex is NOT important to me</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K22</td>
+<td align="left">sexch_K22</td>
 <td align="left">My decision to have sex is good for me.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K23</td>
+<td align="left">sexch_K23</td>
 <td align="left">I am comfortable with my decision to have sex.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="odd">
-<td align="left">K24</td>
+<td align="left">sexch_K24</td>
 <td align="left">My decision to have sex makes me feel good about myself.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
 <tr class="even">
-<td align="left">K25</td>
+<td align="left">sexch_K25</td>
 <td align="left">At this stage of my life, sex is very important to me.</td>
 <td align="left">1 = Not all like me, 2 = Somewhat like me, 3 = Like me, 4 = Very much like me</td>
 </tr>
@@ -1206,9 +1318,9 @@ Not an established scale</p>
 </table>
 <table>
 <colgroup>
-<col width="9%" />
-<col width="45%" />
-<col width="45%" />
+<col width="10%" />
+<col width="44%" />
+<col width="44%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1219,7 +1331,7 @@ Not an established scale</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">K26</td>
+<td align="left">sexch_K26</td>
 <td align="left">Which of the following best describes your plans about having sexual intercourse in the future?</td>
 <td align="left">1 = I plan to wait until marriage before having sexual intercourse, 2 = I plan to wait until I am engaged before having sexual intercourse, 3 = I plan to wait until I find someone I really love before having sexual intercourse, 4 = I plan to wait until I am at least 18 before having sexual intercourse, 5 = I don’t have specific plans; it will depend on the circumstances, 6 = I plan to have sexual intercourse as soon as possible</td>
 </tr>
@@ -1259,52 +1371,52 @@ The following questions ask about your knowledge of sexually transmitted disease
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">L1_1</td>
+<td align="left">std_L1_1</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a man: Discharge from penis</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="even">
-<td align="left">L1_2</td>
+<td align="left">std_L1_2</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a man: Pain during urination</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="odd">
-<td align="left">L1_3</td>
+<td align="left">std_L1_3</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a man: Ulcers/sores in genital area</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="even">
-<td align="left">L1_4</td>
+<td align="left">std_L1_4</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a man: Other</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="odd">
-<td align="left">L1_5</td>
+<td align="left">std_L1_5</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a man: I don’t know any signs</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="even">
-<td align="left">L2_1</td>
+<td align="left">std_L2_1</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a woman: Vaginal discharge</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="odd">
-<td align="left">L2_2</td>
+<td align="left">std_L2_2</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a woman: Pain during urination</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="even">
-<td align="left">L2_3</td>
+<td align="left">std_L2_3</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a woman: Ulcers/sores in genital area</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="odd">
-<td align="left">L2_4</td>
+<td align="left">std_L2_4</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a woman: Other</td>
 <td align="left">1 = yes</td>
 </tr>
 <tr class="even">
-<td align="left">L2_5</td>
+<td align="left">std_L2_5</td>
 <td align="left">What are the signs and symptoms of a sexual transmitted disease in a woman: I don’t know any signs</td>
 <td align="left">1 = yes</td>
 </tr>
@@ -1344,22 +1456,22 @@ People have different opinions about condoms. For each of the following options,
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">M1</td>
+<td align="left">con_M1</td>
 <td align="left">Condoms are an effective method of preventing pregnancy.</td>
 <td align="left">1 = Agree, 2 = Disagree, 3 = Don’t know</td>
 </tr>
 <tr class="even">
-<td align="left">M2</td>
+<td align="left">con_M2</td>
 <td align="left">Condoms are an effective way of protecting against HIV/AIDS.</td>
 <td align="left">1 = Agree, 2 = Disagree, 3 = Don’t know</td>
 </tr>
 <tr class="odd">
-<td align="left">M3</td>
+<td align="left">con_M3</td>
 <td align="left">Condoms are suitable for casual relationships.</td>
 <td align="left">1 = Agree, 2 = Disagree, 3 = Don’t know</td>
 </tr>
 <tr class="even">
-<td align="left">M4</td>
+<td align="left">con_M4</td>
 <td align="left">Condoms are an effective way of protecting against sexually transmitted diseases.</td>
 <td align="left">1 = Agree, 2 = Disagree, 3 = Don’t know</td>
 </tr>
