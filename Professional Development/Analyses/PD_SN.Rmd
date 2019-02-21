@@ -1,0 +1,276 @@
+---
+title: 'Positive Development community: Social network visualization'
+output:
+  html_document:
+    df_print: paged
+---
+
+#Introduction
+This document was created on 2/20/19 by Neil Yetz, MPH. The purpose of this project is to visually represent the programs in the Positive development (PD). The network graphs will assess the connections between the PD programs in the northern Colorado region. 
+
+#Clear Environment
+```{r}
+rm(list=ls())
+```
+
+#Load libraries
+```{r, warning = FALSE}
+library(tidyverse)
+library(igraph)
+library(stringr)
+library(data.table)
+```
+
+
+```{r, message = FALSE}
+pd <- read_csv("../Data/PD System Network Mapping Survey.csv")
+```
+
+#Select & Format var names
+```{r}
+pd_fil <- pd %>% 
+  select(4, 11:42)
+
+#names(pd_fil) <- str_replace_all(names(pd_fil), " ", "_")
+
+
+names(pd_fil) <- str_remove(names(pd_fil), "Rate the strength of each relationship that your organization has with the list of other organizations below. Leave your organization blank. ")
+
+names(pd_fil) <- names(pd_fil) %>% str_replace_all("\\[|\\]", "")
+names(pd_fil) <- names(pd_fil) %>% str_replace_all(" \\(.*\\)", "")
+names(pd_fil) <- names(pd_fil) %>% str_replace_all(" \\'.*\\)", "")
+
+names(pd_fil) <- gsub("'", '', names(pd_fil))
+
+org_names <- names(pd_fil)
+
+
+pd_fil <- pd_fil %>% 
+  rename(`Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute` = "Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute" )
+
+#Used to create mutate shorcut excel file.
+#names(pd_fil)
+```
+
+
+#Convert convert weights to Numeric - Weighted adjacency table
+```{r}
+
+pd_num <- pd_fil %>% 
+  mutate(
+          `Action for Healthy Kids` = as.numeric(readr::parse_number(`Action for Healthy Kids` )),
+          `Advancing Dynamic Solutions` = as.numeric(readr::parse_number(`Advancing Dynamic Solutions` )),
+          `Advancing IDEAS for Health` = as.numeric(readr::parse_number(`Advancing IDEAS for Health` )),
+          `Alliance for a Healthier Generation` = as.numeric(readr::parse_number(`Alliance for a Healthier Generation` )),
+          `Aurora Public Schools` = as.numeric(readr::parse_number(`Aurora Public Schools` )),
+          `Center for Rural School Health and Education` = as.numeric(readr::parse_number(`Center for Rural School Health and Education`          )),
+          `CharterChoice Collaborative` = as.numeric(readr::parse_number(`CharterChoice Collaborative` )),
+          `Chef Ann Foundation` = as.numeric(readr::parse_number(`Chef Ann Foundation` )),
+          `Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute` = as.numeric(readr::parse_number(`Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute`)),
+          `Colorado Alliance for School Health` = as.numeric(readr::parse_number(`Colorado Alliance for School Health` )),
+          `Colorado Department of Education` = as.numeric(readr::parse_number(`Colorado Department of Education` )),
+          `Colorado Department of Education: Office of School Nutrition` = as.numeric(readr::parse_number(`Colorado Department of Education: Office of School Nutrition` )),
+          `Colorado Department of Human Services: Office of Behavioral Health` = as.numeric(readr::parse_number(`Colorado Department of Human Services: Office of Behavioral Health` )),
+          `Colorado Department of Public Health and Environment: Children, Youth and Families Branch` = as.numeric(readr::parse_number(`Colorado Department of Public Health and Environment: Children, Youth and Families Branch`)),
+          `Colorado Department of Public Safety` = as.numeric(readr::parse_number(`Colorado Department of Public Safety` )),
+          `Colorado Department of Transportation` = as.numeric(readr::parse_number(`Colorado Department of Transportation` )),
+          `Colorado Education Initiative` = as.numeric(readr::parse_number(`Colorado Education Initiative` )),
+          `Colorado League of Charter Schools` = as.numeric(readr::parse_number(`Colorado League of Charter Schools` )),
+          `Colorado PTA` = as.numeric(readr::parse_number(`Colorado PTA` )),
+          `Colorado School of Public Health: Healthy Kids Colorado Survey and Smart Source team` = as.numeric(readr::parse_number(`Colorado School of Public Health: Healthy Kids Colorado Survey and Smart Source team` )),
+          `Colorado State University ` = as.numeric(readr::parse_number(`Colorado State University ` )),
+          `Fremont Regional Wellness` = as.numeric(readr::parse_number(`Fremont Regional Wellness` )),
+          `Health & Innovation through Education` = as.numeric(readr::parse_number(`Health & Innovation through Education` )),
+          `PlayCore` = as.numeric(readr::parse_number(`PlayCore` )),
+          `Playworks` = as.numeric(readr::parse_number(`Playworks` )),
+          `Resilient Futures` = as.numeric(readr::parse_number(`Resilient Futures` )),
+          `RMC Health` = as.numeric(readr::parse_number(`RMC Health` )),
+          `Special Olympics Colorado` = as.numeric(readr::parse_number(`Special Olympics Colorado` )),
+          `Trailhead Institute` = as.numeric(readr::parse_number(`Trailhead Institute` )),
+          `University of Colorado / Childrens Hospital Colorado` = as.numeric(readr::parse_number(`University of Colorado / Childrens Hospital Colorado` )),
+          `University of Northern Colorado Active Schools Institute ` = as.numeric(readr::parse_number(`University of Northern Colorado Active Schools Institute ` )),
+          `Wellness Training Specialists` = as.numeric(readr::parse_number(`Wellness Training Specialists` ))
+)
+
+
+```
+
+
+
+#Convert top binary Adjacency table
+```{r}
+
+
+#Remove ID (data.table doesn't like this)
+ID <- pd_num %>% 
+  select(`What organization are you affiliated with?`)
+pd_adj <- pd_num %>% 
+  select(-`What organization are you affiliated with?`)
+
+
+#Apply function to replace values greater than 0 with 1
+pd_adj <- lapply(pd_adj, function(x){replace(x, x >0 ,1)})
+# change to data.table
+setattr(pd_adj, 'class', c('data.table','data.frame'))
+
+#Convert back to tible (data_frame)
+pd_adj <- dplyr::as_tibble(pd_adj)
+
+pd_adj <- lapply(pd_adj, function(x){replace(x, is.na(x) ,1)})
+# change to data.table
+setattr(pd_adj, 'class', c('data.table','data.frame'))
+
+#Convert back to tible (data_frame)
+pd_adj <- dplyr::as_tibble(pd_adj)
+
+#Bind the ID column back
+pd_adj  <- bind_cols(ID, pd_adj)
+
+
+```
+
+#Graph adjacency table (Need to format)
+Considering using [Kumu](https://kumu.io/) 
+```{r}
+
+
+
+
+
+
+long_DF <-pd_adj %>% gather(org, connect, `Action for Healthy Kids`:`Wellness Training Specialists` )
+
+edge <- long_DF %>% 
+  filter(connect == 1) %>% 
+  select(from = "What organization are you affiliated with?" , to = "org" ) %>% 
+  filter(from != to)
+
+g <- graph_from_edgelist(as.matrix(edge), directed = TRUE)
+
+
+plot(g)
+
+#install.packages("threejs")
+library(threejs)
+
+g <- set_vertex_attr(g, "color", value = "dodgerblue")
+plot(g,
+     vertex.label.color = "black", 
+     edge.color = 'gray77',
+     vertex.size = 5,
+     edge.arrow.size = 1,
+      vertex.label = NA,
+     layout = layout_in_circle(g)
+     )
+
+
+```
+
+
+
+
+```{r}
+
+
+#nodes <- long_DF %>% 
+ # select(id = "org")
+
+#nodes <- subset(nodes, !duplicated(id))
+
+
+edges <- data.frame(from = edge$from,
+                    to = edge$to)
+
+
+to   <- dplyr::as_data_frame(edge$to)
+from <- dplyr::as_data_frame(edge$from)
+
+to   <- subset(to, !duplicated(value))
+from <- subset(from, !duplicated(value))
+
+to <- to %>% 
+  left_join(from, by = "value")
+
+
+nodes <- edges %>% 
+  select(id = "from")
+
+
+
+
+isolates <- from %>%
+  semi_join(to, by = "value")
+
+edges_test <- edges %>% 
+  semi_join(isolates, by = c("to" = "value")) %>% 
+  semi_join(isolates, by = c("from" = "value"))
+
+
+nodes <- subset(nodes, !duplicated(id))
+
+nodes_test <- nodes %>%
+  semi_join(isolates, by = c("id" = "value"))
+
+library(visNetwork)
+
+visNetwork(nodes_test, edges_test, height = "1000px") %>%
+  visIgraphLayout() %>%
+  visNodes(size = 10)
+
+visNetwork(nodes_test, edges_test, height = "1000px") %>%
+  visIgraphLayout() %>%
+  visNodes(size = 10) %>%
+  visOptions(highlightNearest = list(enabled = T, hover = T), 
+             nodesIdSelection = T)
+
+#layout = "layout_in_circle"
+```
+
+
+#Edelist to adjacency
+```{r}
+
+
+adjacency_table <- as.matrix(get.adjacency(graph.data.frame(edges)))
+
+
+ad_g <- graph_from_adjacency_matrix(adjacency_table)
+
+V(ad_g)$label.cex = 1
+V(ad_g)$label.cex[1:20 %% 2 == 0] = 0.
+
+#Vad(ad_g)$size
+
+deg=list(degree(ad_g, mode="all"))
+
+
+visIgraph(ad_g,  physics = TRUE, smooth = TRUE) %>%
+  visIgraphLayout() %>%
+  visNodes(size = 20) %>%
+  visOptions(highlightNearest = list(enabled = T, hover = T), 
+             nodesIdSelection = T) 
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
