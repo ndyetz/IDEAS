@@ -5,4 +5,4 @@ After we intervene, we hope to collect the social network data again to see the 
 
 Here is a screenshot of our rough draft network. Next, I plan to clean it up and color each node.
 
-![PD_Network](D:\Git\IDEAS\Positive Development\Network_pic.PNG)
+![PD_Network](https://raw.githubusercontent.com/ndyetz/IDEAS/master/Positive%20Development/Network_pic.PNG)
