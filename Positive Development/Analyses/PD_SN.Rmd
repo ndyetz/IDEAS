@@ -217,7 +217,7 @@ visNetwork(nodes_test, edges_test, height = "1000px") %>%
   visIgraphLayout() %>%
   visNodes(size = 10)
 
-visNetwork(nodes_test, edges_test, height = "1000px") %>%
+visNetwork(nodes_test, edges_test) %>%
   visIgraphLayout() %>%
   visNodes(size = 10) %>%
   visOptions(highlightNearest = list(enabled = T, hover = T), 
