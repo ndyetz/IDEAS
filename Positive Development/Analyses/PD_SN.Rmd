@@ -14,7 +14,7 @@ rm(list=ls())
 ```
 
 #Load libraries
-```{r, warning = FALSE}
+```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(igraph)
 library(stringr)
@@ -45,8 +45,8 @@ names(pd_fil) <- gsub("'", '', names(pd_fil))
 org_names <- names(pd_fil)
 
 
-pd_fil <- pd_fil %>% 
-  rename(`Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute` = "Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute" )
+#pd_fil <- pd_fil %>% 
+#  rename(`Children's Hospital Colorado: School Health & Child Health Advocacy Institute`     = "Children's Hospital Colorado: School Health & Child Health Advocacy Institute" )
 
 #Used to create mutate shorcut excel file.
 #names(pd_fil)
@@ -66,7 +66,7 @@ pd_num <- pd_fil %>%
           `Center for Rural School Health and Education` = as.numeric(readr::parse_number(`Center for Rural School Health and Education`          )),
           `CharterChoice Collaborative` = as.numeric(readr::parse_number(`CharterChoice Collaborative` )),
           `Chef Ann Foundation` = as.numeric(readr::parse_number(`Chef Ann Foundation` )),
-          `Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute` = as.numeric(readr::parse_number(`Children's Hospital Colorado: School Healthy & Child Health Advocacy Institute`)),
+          `Children's Hospital Colorado: School Health & Child Health Advocacy Institute` = as.numeric(readr::parse_number(`Children's Hospital Colorado: School Health & Child Health Advocacy Institute`    )),
           `Colorado Alliance for School Health` = as.numeric(readr::parse_number(`Colorado Alliance for School Health` )),
           `Colorado Department of Education` = as.numeric(readr::parse_number(`Colorado Department of Education` )),
           `Colorado Department of Education: Office of School Nutrition` = as.numeric(readr::parse_number(`Colorado Department of Education: Office of School Nutrition` )),
@@ -78,7 +78,7 @@ pd_num <- pd_fil %>%
           `Colorado League of Charter Schools` = as.numeric(readr::parse_number(`Colorado League of Charter Schools` )),
           `Colorado PTA` = as.numeric(readr::parse_number(`Colorado PTA` )),
           `Colorado School of Public Health: Healthy Kids Colorado Survey and Smart Source team` = as.numeric(readr::parse_number(`Colorado School of Public Health: Healthy Kids Colorado Survey and Smart Source team` )),
-          `Colorado State University ` = as.numeric(readr::parse_number(`Colorado State University ` )),
+          `Colorado State University` = as.numeric(readr::parse_number(`Colorado State University` )),
           `Fremont Regional Wellness` = as.numeric(readr::parse_number(`Fremont Regional Wellness` )),
           `Health & Innovation through Education` = as.numeric(readr::parse_number(`Health & Innovation through Education` )),
           `PlayCore` = as.numeric(readr::parse_number(`PlayCore` )),
@@ -234,7 +234,27 @@ visNetwork(nodes_test, edges_test) %>%
 adjacency_table <- as.matrix(get.adjacency(graph.data.frame(edges)))
 
 
-ad_g <- graph_from_adjacency_matrix(adjacency_table)
+
+#adjacency_table2 <- adjacency_table %>% 
+#    as.data.frame() %>% 
+#    rownames_to_column() %>% 
+#  select(org_name = "rowname",
+#         everything(),
+#         -`Alliance for a Healthier Generation`,
+#         -`Colorado Department of Human Services: Office of Behavioral Health`,
+#         -`Colorado Department of Public Safety`,
+#         -`Colorado Department of Transportation`) %>% 
+#  filter(org_name != "Alliance for a Healthier Generation",
+#         org_name != "Colorado Department of Human Services: Office of Behavioral Health",
+#         org_name != "Colorado Department of Public Safety",
+#         org_name != "Colorado Department of Transportation") %>% 
+#  as.matrix()
+  
+    
+  
+
+
+ad_g <- graph_from_adjacency_matrix(adjacency_table, mode = "directed")
 
 V(ad_g)$label.cex = 1
 V(ad_g)$label.cex[1:20 %% 2 == 0] = 0.
@@ -260,15 +280,150 @@ visIgraph(ad_g,  physics = TRUE, smooth = TRUE) %>%
 ```
 
 
+#Prepare network for kumu (Weighted)
+```{r}
+
+#Convert NAs to 0
+pd_num[is.na(pd_num)] <- 0
+
+#Change forst var name
+pd_num <- pd_num %>% 
+  select(org = "What organization are you affiliated with?", everything())
+
+
+
+```
+
+```{r}
+library(tidyr)
+long <- pd_num %>% gather(To, Strength, `Action for Healthy Kids`:`Wellness Training Specialists`)
+```
+
+
+
+#change names
+```{r}
+
+long <- long %>% 
+  filter(Strength != 0,
+         org != To) %>% 
+  mutate(Type = "organization") %>%  #,
+   #      Strength = ifelse(Strength == 0, "No Connection", Strength),
+    #     Strength = ifelse(Strength == 1, "On my radar; I know of this organization, but rarely communicate or cross paths with them.", Strength),
+     #    Strength = ifelse(Strength == 2, "In my peripheral network; My organization keeps in touch with this organization and/or occasionally work, collaborate, or socialize with them.", Strength),
+      #   Strength = ifelse(Strength == 3, "In my core network. My organization knows this organization well and/or frequently work, collaborate, or socialize with them.", Strength)) %>% 
+  select(From = "org", To, Type, Strength) %>% 
+  mutate(From = ifelse(From == "Other", "New America School", From),
+         From = ifelse(From == "University of Northern Colorado Active Schools Lab", "University of Northern Colorado Active Schools Institute", From),
+         From = ifelse(From == "Trailhead Insitute", "Trailhead Institute", From)
+         ) %>% 
+  filter(From != To,
+         From != "Alliance for a Healthier Generation",
+         From != "Colorado Department of Human Services: Office of Behavioral Health",
+         From != "Colorado Department of Public Safety",
+         From != "Colorado Department of Transportation",
+         From != "Fremont Regional Wellness",
+         From != "Advancing Dynamic Solutions",
+         To != "Alliance for a Healthier Generation",
+         To != "Colorado Department of Human Services: Office of Behavioral Health",
+         To != "Colorado Department of Public Safety",
+         To != "Colorado Department of Transportation",
+         To != "Fremont Regional Wellness",
+         To != "Advancing Dynamic Solutions",
+         To != "University of Colorado / Childrens Hospital Colorado"
+)
 
 
 
 
+```
+
+```{r}
+write_csv(long, "kumu_final.csv") 
+```
 
 
+```{r}
+long %>% 
+  group_by(From) %>% 
+  slice(1) 
+
+long %>% 
+  group_by(To) %>% 
+  slice(1) 
+```
 
 
+#Create 6 month edgelist
+```{r, warning = FALSE}
+six_mo <- pd %>% 
+  select(org = "What organization are you affiliated with?", six_mo = "Who has your organization shared resources with and/or increased peer learning with in the last 6 months? Check all that apply. Peer learning here refers to sharing of knowledge, ideas, and experiences between organizations (Boud, 1988).") %>% 
+  separate(six_mo, sep = ";", into = c("a","b", "c","d", "e", "f", "g", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")) %>% 
+  gather(from, to, a:z) %>% 
+  filter(!is.na(to)) %>% 
+  select(-from) %>% 
+  select(from = "org", to) %>% 
+  mutate(from  = ifelse(from == "Other", "New America School", from),
+          from = ifelse(from == "University of Northern Colorado Active Schools Lab", "University of Northern Colorado Active Schools Institute", from),
+          from = ifelse(from == "Trailhead Insitute", "Trailhead Institute", from) ,
+          to   = ifelse(to   == "University of Northern Colorado Active Schools Lab", "University of Northern Colorado Active Schools Institute", to),
+          to   = ifelse(to   == "Trailhead Insitute", "Trailhead Institute", to) 
+         ) %>% 
+  filter(from != to,
+         from != "Alliance for a Healthier Generation",
+         from != "Colorado Department of Human Services: Office of Behavioral Health",
+         from != "Colorado Department of Public Safety",
+         from != "Colorado Department of Transportation",
+         from != "Fremont Regional Wellness",
+         from != "Advancing Dynamic Solutions",
+         from != "Advancing Dynamic (AD) Solutions",
+         from != "University of Colorado / Children's Hospital Colorado",
+         to   != "Alliance for a Healthier Generation",
+         to   != "Colorado Department of Human Services: Office of Behavioral Health",
+         to   != "Colorado Department of Public Safety",
+         to   != "Colorado Department of Transportation",
+         to   != "Fremont Regional Wellness",
+         to   != "Advancing Dynamic Solutions",
+         to   != "University of Colorado / Childrens Hospital Colorado",
+         to   != "Advancing Dynamic (AD) Solutions",
+         to   != "University of Colorado / Children's Hospital Colorado"
+         )
 
+write_csv(six_mo, "six_mo.csv")
+```
+
+#Graph six month edgelist
+```{r}
+
+six_nodes <- six_mo %>%
+  select(from = "to") %>% 
+  group_by(from) %>% 
+  slice(1) %>% 
+  ungroup()
+
+six_to <- six_mo %>% 
+  select(to, from)
+
+six_test <- six_to %>% 
+  select(from) %>% 
+  group_by(from) %>% 
+  slice(1) %>%
+  ungroup() %>% 
+  anti_join(six_nodes, by = "from") %>% 
+  mutate(to = "Other")
+
+six_to <- bind_rows(six_to, six_test)
+
+g <- graph_from_edgelist(as.matrix(six_to))
+
+export <- dplyr::as_data_frame(as_edgelist(g))
+
+export <- export %>%
+  select(From = "V1", To = "V2")
+
+write_csv(export, "six_mo.csv")
+
+```
 
 
 
