@@ -6,4 +6,4 @@ After we intervene, we hope to collect the social network data again to see the 
 
 Here is a screenshot of the network. You can interact with the network [HERE](https://kumu.io/COIDEAS/pdteam-sna-final#pd-teamsna/trailhead-institute).
 
-![PD_Network](https://raw.githubusercontent.com/ndyetz/IDEAS/master/Positive%20Development/Network_pic.PNG)
+![PD_Network](https://raw.githubusercontent.com/ndyetz/IDEAS/master/Positive%20Development/Network_pic_New.PNG)
